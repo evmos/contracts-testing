@@ -1,6 +1,6 @@
 # Evmos Contracts Testing
 
-This a basic Hardhat project that contains scripts to test contracts 
+This a basic Hardhat project that contains scripts to test contracts
 and EVM extensions in the Evmos chain.
 
 ## Example
