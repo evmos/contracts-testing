@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.18;
 
-import "./Vesting.sol";
+import "../interfaces/Vesting.sol";
 
 contract SCVesting {
     receive() external payable {
