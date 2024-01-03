@@ -12,13 +12,15 @@ if [[ $(evmosd version | grep -o -E '[0-9]+\.[0-9]+\.[0-9]+') != "15.0.0" ]]; th
 fi
 
 # Deploy the MyToken contract
-tokenAddress=$(npx hardhat run scripts/deployMyToken.js --network evmoslocal | grep -o -E '0x[a-fA-F0-9]+')
-echo "Got token address: $tokenAddress"
+echo "Deploying a simple ERC20 token contract"
+tokenAddress=$(npx hardhat run scripts/deployMyToken.js --network evmoslocal | grep -o -E '0x[a-fA-F0-9]+') >/dev/null
+echo "Submitted token contract at: $tokenAddress"
 
 # Sleep to make sure the next block is produced
-sleep 2
+sleep 3
 
 # Submit the proposal to register the contract for incentives
+echo "Submitting the proposal to register the contract for incentives"
 evmosd tx gov submit-legacy-proposal register-incentive $tokenAddress 0.001aevmos 100 \
 --deposit 100000000000000000000aevmos \
 --title Test \
@@ -28,16 +30,17 @@ evmosd tx gov submit-legacy-proposal register-incentive $tokenAddress 0.001aevmo
 --home ~/.tmp-evmosd \
 --gas auto \
 --gas-adjustment 1.4 \
--y
+-y >/dev/null
 
 # Sleep to make sure the next block is produced
-sleep 2
+sleep 3
 
 # Send some tokens to the incentives module account
+echo "Sending tokens to the incentives module account"
 evmosd tx bank send dev0 evmos1krxwf5e308jmclyhfd9u92kp369l083wn67k4q 100000000000000000000aevmos \
 --home $HOME/.tmp-evmosd \
 --from dev0 \
 --fees 200000000000000aevmos \
 --gas auto \
 -b sync \
--y
+-y >/dev/null
