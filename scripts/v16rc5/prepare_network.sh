@@ -14,7 +14,7 @@ fi
 # Deploy the MyToken contract
 echo "Deploying a simple ERC20 token contract"
 tokenAddress=$(npx hardhat run scripts/deployMyToken.js --network evmoslocal | grep -o -E '0x[a-fA-F0-9]+') >/dev/null
-echo "Submitted token contract at: $tokenAddress"
+echo "Deployed token contract at: $tokenAddress"
 
 # Sleep to make sure the next block is produced
 sleep 3
