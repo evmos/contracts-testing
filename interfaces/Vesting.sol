@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.18;
 
-import "./Types.sol";
+import "../common/Types.sol";
 
 /// @dev The VestingI contract's address.
 address constant VESTING_PRECOMPILE_ADDRESS = 0x0000000000000000000000000000000000000803;
