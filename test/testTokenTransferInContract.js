@@ -4,21 +4,18 @@ const { ethers } = require("hardhat");
 describe("transferring tokens", function() {
   it("should send the tokens", async function() {
     const [owner, addr1] = await ethers.getSigners();
-    const ethBalance = await ethers.provider.getBalance(owner);
-    console.log("owner ETH balance:", ethBalance.toString(10));
+    const mintAmount = 100_000_000;
+    const amount = 1000;
 
     const token = await ethers.deployContract("MyToken");
     const tokenAddr = await token.getAddress();
-
-    token.mint(owner, 100_000_000);
+    token.mint(owner, mintAmount);
 
     const tokenTransferFactory = await ethers.getContractFactory("tokenTransfer");
     const tokenTransferContract = await tokenTransferFactory.deploy(tokenAddr);
-    console.log("deployed token transfer contract");
     const tokenTransferAddr = await tokenTransferContract.getAddress();
-    console.log("Token address:", tokenTransferAddr);
 
-    const amount = 1000;
+    token.connect(owner).approve(tokenTransferAddr, amount)
 
     // check the balance before transfer
     const balanceBeforeOwner = await token.balanceOf(owner);
@@ -27,11 +24,14 @@ describe("transferring tokens", function() {
     console.log("ERC-20 balance before transfer:", balanceBefore.toString(10));
 
     // transfer the tokens using the smart contract
-    await tokenTransferContract.connect(owner).transferToken(addr1, amount);
+    await tokenTransferContract.transferToken(addr1, amount);
 
     // check the balance
     const balance = await token.balanceOf(addr1);
     console.log("ERC-20 balance after transfer:", balance.toString(10));
-    expect(balance).to.equal(balanceBefore + amount);
+    expect(balance).to.equal(
+      balanceBefore + BigInt(amount),
+      "expected different amount after token transfer"
+    );
   })
 })

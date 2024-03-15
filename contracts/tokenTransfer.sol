@@ -21,13 +21,6 @@ contract tokenTransfer {
         @param amount The amount of tokens to transfer
     */
     function transferToken(address to, uint256 amount) public {
-        bool approved = tokenToSend.approve(address(this), amount);
-        require(approved, "Approval failed");
-        uint256 allowance = tokenToSend.allowance(address(this), address(this));
-        require(allowance == 0, "approval was made for this contract instead of msg.sender");
-        allowance = tokenToSend.allowance(msg.sender, address(this));
-        require(allowance == amount, "approval wasn't made for the correct amount");
-
         tokenToSend.transferFrom(msg.sender, to, amount);
     }
 }
