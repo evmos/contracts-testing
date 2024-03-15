@@ -5,6 +5,9 @@ coverage.json
 typechain
 typechain-types
 
+# JetBrains IDE files
+.idea/
+
 # Hardhat files
 cache
 artifacts
