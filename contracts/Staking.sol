@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.17;
 
-import "./Authorization.sol" as authorization;
-import "./Types.sol";
+import "../interfaces/Authorization.sol" as authorization;
+import "../common/Types.sol";
 
 /// @dev The StakingI contract's address.
 address constant STAKING_PRECOMPILE_ADDRESS = 0x0000000000000000000000000000000000000800;
