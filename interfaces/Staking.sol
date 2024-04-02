@@ -2,7 +2,7 @@
 pragma solidity >=0.8.17;
 
 import "./Authorization.sol" as authorization;
-import "./Types.sol";
+import "../common/Types.sol";
 
 /// @dev The StakingI contract's address.
 address constant STAKING_PRECOMPILE_ADDRESS = 0x0000000000000000000000000000000000000800;
@@ -29,7 +29,6 @@ struct Commission {
     CommissionRates commissionRates;
     uint256 updateTime;
 }
-
 
 /// @dev Represents a validator in the staking module.
 struct Validator {
@@ -182,7 +181,10 @@ interface StakingI is authorization.AuthorizationI {
     function unbondingDelegation(
         address delegatorAddress,
         string memory validatorAddress
-    ) external view returns (UnbondingDelegationOutput calldata unbondingDelegation);
+    )
+        external
+        view
+        returns (UnbondingDelegationOutput calldata unbondingDelegation);
 
     /// @dev Queries validator info for a given validator address.
     /// @param validatorAddress The address of the validator.
