@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.17;
 
-import "../interfaces/Authorization.sol" as authorization;
+import "./Authorization.sol" as authorization;
 import "../common/Types.sol";
 
 /// @dev The StakingI contract's address.
@@ -29,7 +29,6 @@ struct Commission {
     CommissionRates commissionRates;
     uint256 updateTime;
 }
-
 
 /// @dev Represents a validator in the staking module.
 struct Validator {
@@ -182,7 +181,10 @@ interface StakingI is authorization.AuthorizationI {
     function unbondingDelegation(
         address delegatorAddress,
         string memory validatorAddress
-    ) external view returns (UnbondingDelegationOutput calldata unbondingDelegation);
+    )
+        external
+        view
+        returns (UnbondingDelegationOutput calldata unbondingDelegation);
 
     /// @dev Queries validator info for a given validator address.
     /// @param validatorAddress The address of the validator.
