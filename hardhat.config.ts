@@ -1,8 +1,20 @@
-require("@nomicfoundation/hardhat-toolbox");
-require("dotenv").config();
+import { HardhatUserConfig } from "hardhat/types";
+import "@nomicfoundation/hardhat-toolbox";
+import { config } from "dotenv";
 
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
+// Load environment variables
+config();
+
+// Check that the required environment variables are set
+if (
+  !process.env.LOCAL_KEYS
+  || !process.env.TESTNET_KEYS
+  || !process.env.MAINNET_KEYS
+) {
+  throw new Error("LOCAL_KEYS environment variable is not set");
+}
+
+const hardhatConfig: HardhatUserConfig = {
   solidity: "0.8.20",
   networks: {
     evmoslocal: {
@@ -22,3 +34,5 @@ module.exports = {
     },
   },
 };
+
+export default hardhatConfig;
