@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { ethers } from 'hardhat';
 import { Signer } from 'ethers';
 import { StakingI } from '../../typechain-types';
-import { PageRequestStruct, ValidatorStructOutput } from '../../typechain-types/contracts/Staking.sol/StakingI';
+import { PageRequestStruct, ValidatorStructOutput } from '../../typechain-types/contracts/StakingI.sol/StakingI';
 
 describe("Testing delegation directly calling staking extension", function() {
   const delegationAmount = ethers.parseEther("1");

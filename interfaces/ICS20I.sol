@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.18;
 
-import "./Types.sol";
+import "../common/Types.sol";
 import "./IICS20Authorization.sol";
 
 /// @dev The ICS20I contract's address.
