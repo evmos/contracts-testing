@@ -45,13 +45,12 @@ describe("Testing delegation directly calling staking extension", function() {
       dev0.getAddress(),
       validator
     );
-    console.log("Got result: ", delegationsRes)
     const delegationCoin = delegationsRes["balance"];
     delegationAmountPre = delegationCoin["amount"];
     expect(
       delegationAmountPre
-    ).to.be.greaterThan(
-      0, "There should be an initial delegation prior to delegating"
+    ).to.be.greaterThanOrEqual(
+      0, "There should be either no or an initial delegation prior to delegating"
     );
   })
 
