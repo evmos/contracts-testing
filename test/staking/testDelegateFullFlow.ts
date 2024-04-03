@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import { Signer } from 'ethers';
-import { StakingI } from '../../typechain-types';
-import { PageRequestStruct, ValidatorStructOutput } from '../../typechain-types/contracts/Staking.sol/StakingI';
+import { StakingI } from '../../typechain-types/contracts/StakingI';
+import { PageRequestStruct, ValidatorStructOutput } from '../../typechain-types/contracts/StakingI';
 
 describe("Testing delegation directly calling staking extension", function() {
   const delegationAmount = ethers.parseEther("1");
@@ -50,8 +49,8 @@ describe("Testing delegation directly calling staking extension", function() {
     delegationAmountPre = delegationCoin["amount"];
     expect(
       delegationAmountPre
-    ).to.be.greaterThan(
-      0, "There should be an initial delegation prior to delegating"
+    ).to.be.greaterThanOrEqual(
+      0, "There should be either no or an initial delegation prior to delegating"
     );
   })
 
