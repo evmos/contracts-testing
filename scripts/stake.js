@@ -8,7 +8,7 @@ const hre = require("hardhat");
 
 async function main() {
   // change here the address of the validator you want to stake to
-  const valAddr = "evmosvaloper19qays6qcacmtyzq86spuyrz56sl6lrf55nht68"; 
+  const valAddr = "evmosvaloper10jmp6sgh4cc6zt3e8gw05wavvejgr5pwlawghe"; 
   
   const stakeAmount = hre.ethers.parseEther("0.001");
 

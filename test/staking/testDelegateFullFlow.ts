@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import { Signer } from 'ethers';
-import { StakingI } from '../../typechain-types';
-import { PageRequestStruct, ValidatorStructOutput } from '../../typechain-types/contracts/StakingI.sol/StakingI';
+import { StakingI } from '../../typechain-types/contracts/StakingI';
+import { PageRequestStruct, ValidatorStructOutput } from '../../typechain-types/contracts/StakingI';
 
 describe("Testing delegation directly calling staking extension", function() {
   const delegationAmount = ethers.parseEther("1");
@@ -46,6 +45,7 @@ describe("Testing delegation directly calling staking extension", function() {
       dev0.getAddress(),
       validator
     );
+    console.log("Got result: ", delegationsRes)
     const delegationCoin = delegationsRes["balance"];
     delegationAmountPre = delegationCoin["amount"];
     expect(
