@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
+import { Bech32I } from '../../typechain-types/contracts/Bech32I';
 import { StakingI } from '../../typechain-types/contracts/StakingI';
-import { PageRequestStruct, ValidatorStructOutput } from '../../typechain-types/contracts/StakingI';
+import { PageRequestStruct } from '../../typechain-types/contracts/StakingI';
 
 describe("Testing delegation directly calling staking extension", function() {
   const delegationAmount = ethers.parseEther("1");
@@ -9,6 +10,7 @@ describe("Testing delegation directly calling staking extension", function() {
   let delegationAmountPre: bigint;
   let staking: StakingI;
   let validator: string;
+  let valoperAddr: string;
 
   it("should list all available validators", async function() {
     staking = await ethers.getContractAt(
@@ -36,14 +38,23 @@ describe("Testing delegation directly calling staking extension", function() {
     validator = valOut["operatorAddress"];
   })
 
+  it("should convert the bech32 address", async function() {
+    const bech32: Bech32I = await ethers.getContractAt(
+      'Bech32I',
+      '0x0000000000000000000000000000000000000400'
+    );
+
+    valoperAddr = await bech32.hexToBech32(validator, "evmosvaloper");
+  })
+
   it("should show the delegation prior to delegation", async function() {
     const signers = await ethers.getSigners();
     const dev0 = signers[0];
     dev0Addr = await dev0.getAddress();
 
     const delegationsRes = await staking.delegation(
-      dev0.getAddress(),
-      validator
+      dev0Addr,
+      valoperAddr
     );
     const delegationCoin = delegationsRes["balance"];
     delegationAmountPre = delegationCoin["amount"];
@@ -57,7 +68,7 @@ describe("Testing delegation directly calling staking extension", function() {
   it("should delegate to the validator", async function() {
     const tx = await staking.delegate(
       dev0Addr,
-      validator,
+      valoperAddr,
       delegationAmount
     );
     const receipt = await tx.wait();
@@ -70,7 +81,7 @@ describe("Testing delegation directly calling staking extension", function() {
   it("should have increased the delegation amount", async function() {
     const delegationsRes = await staking.delegation(
       dev0Addr,
-      validator
+      valoperAddr
     );
 
     const delegationCoin = delegationsRes["balance"];
