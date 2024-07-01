@@ -39,8 +39,6 @@ describe("Testing delegation directly calling staking extension", function() {
   })
 
   it("should convert the bech32 address", async function() {
-    console.log("Converting addr for ", validator);
-
     const bech32: Bech32I = await ethers.getContractAt(
       'Bech32I',
       '0x0000000000000000000000000000000000000400'
