@@ -11,7 +11,7 @@ if (
   || !process.env.TESTNET_KEYS
   || !process.env.MAINNET_KEYS
 ) {
-  throw new Error("LOCAL_KEYS environment variable is not set");
+  throw new Error("some required keys are missing in the .env file");
 }
 
 const hardhatConfig: HardhatUserConfig = {
@@ -20,6 +20,11 @@ const hardhatConfig: HardhatUserConfig = {
     evmoslocal: {
       url: "http://127.0.0.1:8545",
       chainId: 9000,
+      accounts: process.env.LOCAL_KEYS.split(","),
+    },
+    oslocal: {
+      url: "http://127.0.0.1:8545",
+      chainId: 9005,
       accounts: process.env.LOCAL_KEYS.split(","),
     },
     evmostestnet: {

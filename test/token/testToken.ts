@@ -7,8 +7,14 @@ describe("testing ERC-20 token contracts - ", function() {
 	const transferAmount = ethers.parseEther("0.1");
 	let token: MyToken;
 
+	it("should show a balance for the signer", async function() {
+		let [signer] = await ethers.getSigners();
+		const balance = await ethers.provider.getBalance(signer);
+	})
+
 	it("should deploy the token contract and return the symbol", async function() {
-		token = await ethers.deployContract("MyToken");
+		let [signer] = await ethers.getSigners();
+		token = await ethers.deployContract("MyToken", signer);
 		await token.waitForDeployment();
 
 		const symbol = await token.symbol();
