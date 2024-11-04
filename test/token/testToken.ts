@@ -2,51 +2,51 @@ import { expect } from 'chai';
 import { ethers } from 'hardhat';
 import { MyToken } from '../../typechain-types/contracts/MyToken';
 
-describe("testing ERC-20 token contracts - ", function() {
-	const mintAmount = ethers.parseEther("1");
-	const transferAmount = ethers.parseEther("0.1");
-	let token: MyToken;
+describe("testing ERC-20 token contracts - ", function () {
+  const mintAmount = ethers.parseEther("1");
+  const transferAmount = ethers.parseEther("0.1");
+  let token: MyToken;
 
-	it("should show a balance for the signer", async function() {
-		let [signer] = await ethers.getSigners();
-		const balance = await ethers.provider.getBalance(signer);
-	})
+  it("should show a balance for the signer", async function () {
+    let [signer] = await ethers.getSigners();
+    const balance = await ethers.provider.getBalance(signer);
+  })
 
-	it("should deploy the token contract and return the symbol", async function() {
-		let [signer] = await ethers.getSigners();
-		token = await ethers.deployContract("MyToken", signer);
-		await token.waitForDeployment();
+  it("should deploy the token contract and return the symbol", async function () {
+    let [signer] = await ethers.getSigners();
+    token = await ethers.deployContract("MyToken", signer);
+    await token.waitForDeployment();
 
-		const symbol = await token.symbol();
-		expect(symbol).to.equal("MTK", "expected different symbol returned");
-	})
+    const symbol = await token.symbol();
+    expect(symbol).to.equal("MTK", "expected different symbol returned");
+  })
 
-	it("should mint some tokens", async function() {
-		let [signer] = await ethers.getSigners();
-		const tx = await token.mint(signer.address, mintAmount)	;
-		const receipt = await tx.wait();
+  it("should mint some tokens", async function () {
+    let [signer] = await ethers.getSigners();
+    const tx = await token.mint(signer.address, mintAmount);
+    const receipt = await tx.wait();
 
-		if (receipt !== null) {
-			expect(receipt.status).to.equal(1, "expected receipt to show successful transaction when minting");
-		}
+    if (receipt !== null) {
+      expect(receipt.status).to.equal(1, "expected receipt to show successful transaction when minting");
+    }
 
-		const balance = await token.balanceOf(signer);
-		expect(balance).to.equal(mintAmount, "expected different balance after minting");
-	})
+    const balance = await token.balanceOf(signer);
+    expect(balance).to.equal(mintAmount, "expected different balance after minting");
+  })
 
-	it("should send tokens to another address", async function() {
-		let [sender, receiver] = await ethers.getSigners();
-		const tx = await token.connect(sender).transfer(receiver, transferAmount);
-		const receipt = await tx.wait();
+  it("should send tokens to another address", async function () {
+    let [sender, receiver] = await ethers.getSigners();
+    const tx = await token.connect(sender).transfer(receiver, transferAmount);
+    const receipt = await tx.wait();
 
-		if (receipt !== null) {
-			expect(receipt.status).to.equal(1, "expected receipt to show successful transaction when transferring");
-		}
+    if (receipt !== null) {
+      expect(receipt.status).to.equal(1, "expected receipt to show successful transaction when transferring");
+    }
 
-		const balanceSender = await token.balanceOf(sender);
-		expect(balanceSender).to.equal(mintAmount-transferAmount);
-		const balanceReceiver = await token.balanceOf(receiver);
-		expect(balanceReceiver).to.equal(transferAmount);
-	})
+    const balanceSender = await token.balanceOf(sender);
+    expect(balanceSender).to.equal(mintAmount - transferAmount);
+    const balanceReceiver = await token.balanceOf(receiver);
+    expect(balanceReceiver).to.equal(transferAmount);
+  })
 })
 
