@@ -6,8 +6,8 @@ import { ERC20 } from '../../typechain-types';
 
 describe("using the safe call method from the Axelar GMP Solidity implementation", function () {
   const transferAmount = ethers.parseEther("1.0")
-  const nativeERC20Addr = "0xD4949664cD82660AaE99bEdc034a0deA8A0bd517";
-  // const nativeERC20Addr = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
+  const nativeERC20Addr = "0xD4949664cD82660AaE99bEdc034a0deA8A0bd517"; // native denom for evmos/evmos repo
+  // const nativeERC20Addr = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"; // native denom for evmos/os repo
 
   let safeCallContract: SafeCallExample;
   let nativeERC20Contract: ERC20;
