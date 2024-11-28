@@ -19,7 +19,7 @@ const hardhatConfig: HardhatUserConfig = {
   networks: {
     evmoslocal: {
       url: "http://127.0.0.1:8545",
-      chainId: 9000,
+      chainId: 9002,
       accounts: process.env.LOCAL_KEYS.split(","),
     },
     oslocal: {
