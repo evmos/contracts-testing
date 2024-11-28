@@ -22,7 +22,6 @@ describe("using the safe call method from the Axelar GMP Solidity implementation
     nativeERC20Contract = await ethers.getContractAt("ERC20", nativeERC20Addr);
 
     const balancePre = await nativeERC20Contract.balanceOf(signer)
-    console.log("balance pre is ", balancePre);
     expect(balancePre).to.not.equal(0, "expected non-zero erc20 balance of signer address");
   })
 
@@ -42,11 +41,18 @@ describe("using the safe call method from the Axelar GMP Solidity implementation
 
   it("should work with the chain's native ERC-20 precompile", async function () {
     const receiver = Wallet.createRandom();
+    const [sender] = await ethers.getSigners();
 
-    const tx = await safeCallContract.executeSafeCall(nativeERC20Addr, receiver.address, transferAmount);
+    const balanceSenderPre = await nativeERC20Contract.balanceOf(sender);
+    const balanceReceiverPre = await nativeERC20Contract.balanceOf(receiver);
+    expect(balanceReceiverPre).to.equal(0, "expected new wallet to have zero balance");
+
+    const tx = await safeCallContract.connect(sender).executeSafeCall(nativeERC20Addr, receiver.address, transferAmount);
     const receipt = await tx.wait();
-    expect(receipt.status).to.be.equal(1, "expected successful safe call");
+    expect(receipt?.status).to.be.equal(1, "expected successful safe call");
 
+    const balanceSenderPost = await nativeERC20Contract.balanceOf(sender);
+    expect(balanceSenderPost).to.equal(balanceSenderPre - transferAmount - receipt.fee, "expected different sender balance after transfer");
     const balanceReceiverPost = await nativeERC20Contract.balanceOf(receiver);
     expect(balanceReceiverPost).to.equal(transferAmount, "expected different receiver balance");
   })
